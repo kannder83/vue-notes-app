@@ -4,13 +4,19 @@ const showModal = ref(false);
 const newNote = ref("");
 const notes = ref([]);
 
+// const randomColor = () => {
+//   return "#FFF";
+// };
+
 const addNote = () => {
   notes.value.push({
     id: Math.floor(Math.random() * 100000),
     text: newNote.value,
     date: new Date(),
+    backgroundColor: "",
   });
-  console.log(notes);
+  showModal.value = false;
+  newNote.value = "";
 };
 </script>
 
@@ -55,13 +61,15 @@ const addNote = () => {
       </header>
       <div class="flex flex-wrap">
         <article
+          v-for="note in notes"
           class="w-56 h-56 p-3 mr-5 mb-5 flex flex-col justify-between bg-yellow-200 rounded-xl shadow-md"
         >
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
-            repellendus, totam numquam eligendi debitis necessitatibus!
+            {{ note.text }}
           </p>
-          <p class="text-xs font-bold">12/feb/2023</p>
+          <p class="text-xs font-bold">
+            {{ note.date.toLocaleDateString("en-US") }}
+          </p>
         </article>
       </div>
     </div>
