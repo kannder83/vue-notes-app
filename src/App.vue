@@ -4,16 +4,36 @@ const showModal = ref(false);
 const newNote = ref("");
 const notes = ref([]);
 
-// const randomColor = () => {
-//   return "#FFF";
-// };
+let colorIndex = 0;
+
+const selectBgColor = () => {
+  const bgColors = [
+    "bg-[#888888]",
+    "bg-[#8899AA]",
+    "bg-[#bbccdd]",
+    "bg-[#eeff00]",
+    "bg-[#778899]",
+  ];
+
+  let indexBgColor = "";
+
+  if (colorIndex > bgColors.length - 1) {
+    colorIndex = 0;
+  }
+
+  indexBgColor = bgColors[colorIndex];
+
+  colorIndex++;
+
+  return indexBgColor;
+};
 
 const addNote = () => {
   notes.value.push({
     id: Math.floor(Math.random() * 100000),
     text: newNote.value,
     date: new Date(),
-    backgroundColor: "",
+    backgroundColor: selectBgColor(),
   });
   showModal.value = false;
   newNote.value = "";
@@ -62,7 +82,9 @@ const addNote = () => {
       <div class="flex flex-wrap">
         <article
           v-for="note in notes"
-          class="w-56 h-56 p-3 mr-5 mb-5 flex flex-col justify-between bg-yellow-200 rounded-xl shadow-md"
+          :key="note.id"
+          class="w-56 h-56 p-3 mr-5 mb-5 flex flex-col justify-between rounded-xl shadow-md"
+          :class="`${note.backgroundColor}`"
         >
           <p>
             {{ note.text }}
