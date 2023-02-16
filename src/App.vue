@@ -2,6 +2,7 @@
 import { ref } from "vue";
 const showModal = ref(false);
 const newNote = ref("");
+const errorMessage = ref("");
 const notes = ref([]);
 
 let colorIndex = 0;
@@ -29,6 +30,11 @@ const selectBgColor = () => {
 };
 
 const addNote = () => {
+  if (newNote.value.length < 10) {
+    errorMessage.value =
+      "* You must create a note with more than 10 characters.";
+    return;
+  }
   notes.value.push({
     id: Math.floor(Math.random() * 100000),
     text: newNote.value,
@@ -37,6 +43,7 @@ const addNote = () => {
   });
   showModal.value = false;
   newNote.value = "";
+  errorMessage.value = "";
 };
 </script>
 
@@ -55,6 +62,9 @@ const addNote = () => {
           cols="30"
           rows="6"
         ></textarea>
+        <p class="text-red-600 text-2xl" v-show="errorMessage">
+          {{ errorMessage }}
+        </p>
         <button
           @click="addNote()"
           class="w-full px-3 py-5 mt-4 border-none rounded-xl text-white bg-violet-300 text-xl cursor-pointer hover:bg-violet-400 hover:shadow-sm transition-all duration-200"
