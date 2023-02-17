@@ -56,7 +56,7 @@ const addNote = () => {
       <div class="w-3/4 p-8 flex flex-col rounded-xl bg-white">
         <textarea
           class="p-3 text-3xl rounded-xl text-gray-600"
-          v-model="newNote"
+          v-model.trim="newNote"
           name="note"
           id="note"
           cols="30"
